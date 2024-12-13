@@ -1,23 +1,32 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, onMounted } from 'vue'
+import api from './plugins/axios'
+
+const moviesGenres = ref([])
+const TVGenres = ref([])
+
+onMounted(async () => {
+  let response = await api.get('genre/movie/list?language=pt-BR')
+  moviesGenres.value = response.data.genres
+  response = await api.get('genre/tv/list?language=pt-BR')
+  TVGenres.value = response.data.genres
+})
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <h1>Gêneros de filmes</h1>
+  <ul>
+    <li v-for="genre in moviesGenres" :key="genre.id">
+      {{ genre.name }}
+    </li>
+  </ul>
+  <hr />
+  <h1>Gêneros de programas de TV</h1>
+  <ul>
+    <li v-for="genre in TVGenres" :key="genre.id">
+      {{ genre.name }}
+    </li>
+  </ul>
 </template>
 
 <style scoped>
