@@ -2,24 +2,22 @@
 import { ref, onMounted } from "vue";
 import api from "@/plugins/axios";
 import Loading from "vue-loading-overlay";
+import { useGenreStore } from "@/stores/genre";
 
+const genreStore = useGenreStore();
 const isLoading = ref(false);
-const genres = ref([]);
 const tvShows = ref([]);
 
-const formatDate = (date) => new Date().toLocaleDateString('pt-BR')
+const formatDate = (date) => new Date().toLocaleDateString("pt-BR");
 
 onMounted(async () => {
-  const response = await api.get("genre/tv/list?language=pt-BR");
-  genres.value = response.data.genres;
+  isLoading.value = true;
+  genreStore.getAllGenres("tv");
+  isLoading.value = false;
 });
 
-function getGenreName(id) {
-  const genre = genres.value.find((genre) => genre.id === id);
-  return genre.name;
-}
-
 const listTvShows = async (genreId) => {
+  genreStore.setCurrentGenreId(genreId);
   isLoading.value = true;
   const response = await api.get("discover/tv", {
     params: {
@@ -39,8 +37,10 @@ const listTvShows = async (genreId) => {
       <loading v-model:active="isLoading" is-full-page />
       <li
         @click="listTvShows(genre.id)"
-        v-for="genre in genres"
+        v-for="genre in genreStore.genres"
         :key="genre.id"
+        class="genre-item"
+        :class="{ active: genre.id === genreStore.currentGenreId }"
       >
         {{ genre.name }}
       </li>
@@ -59,7 +59,8 @@ const listTvShows = async (genreId) => {
               v-for="genre_id in tvShow.genre_ids"
               :key="genre_id"
               @click="listTvShows(genre_id)"
-              >{{ getGenreName(genre_id) }}</span
+              :class="{ active: genre_id === genreStore.currentGenreId }"
+              >{{ genreStore.getGenreName(genre_id) }}</span
             >
           </p>
         </div>
@@ -67,3 +68,16 @@ const listTvShows = async (genreId) => {
     </div>
   </main>
 </template>
+
+<style>
+.active {
+  background-color: #67b086;
+  font-weight: bolder;
+}
+
+.movie-genres span.active {
+  background-color: #abc322;
+  color: #000;
+  font-weight: bolder;
+}
+</style>
