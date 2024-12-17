@@ -2,7 +2,11 @@
 
 <template>
   <nav>
-    <div class="logo"><router-link to="/movies"><img src="../assets/logo.png" alt="" /></router-link></div>
+    <div class="logo">
+      <router-link to="/movies"
+        ><img src="../assets/logo.png" alt=""
+      /></router-link>
+    </div>
     <div class="series">
       <router-link class="series-link" to="/tv">Series</router-link>
     </div>
@@ -14,7 +18,9 @@
         class="search-input"
       />
     </div>
-    <div class="sign-in"><p>Sign In</p></div>
+    <div class="sign-in">
+      <router-link class="sign-in-link" to="/signin">Sign in</router-link>
+    </div>
   </nav>
 </template>
 
@@ -37,10 +43,10 @@ nav {
   height: 120px;
 }
 
-.series-link {
-  font-size: 20px;
+.series-link, .sign-in-link {
+  font-size: 1rem;
   text-decoration: none;
-  color: #dad8d8;
+  color: #ffffff;
 }
 
 ::placeholder {
@@ -74,6 +80,6 @@ nav {
 
 p {
   font-size: 20px;
-  color: #dad8d8;
+  color: #ffffff;
 }
 </style>
