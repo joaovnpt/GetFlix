@@ -1,4 +1,4 @@
-import { reactive, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import { defineStore } from "pinia";
 import api from "@/plugins/axios";
 
@@ -7,6 +7,8 @@ export const useMovieStore = defineStore("movie", () => {
     currentMovie: {},
   });
 
+  const popularMovies = ref([]);
+  const trendingMovie = ref(null)
   const currentMovie = computed(() => state.currentMovie);
 
   const getMovieDetail = async (movieId) => {
@@ -14,5 +16,23 @@ export const useMovieStore = defineStore("movie", () => {
     state.currentMovie = response.data;
   };
 
-  return { currentMovie, getMovieDetail };
+  const findTrendingMovie = async () => {
+    const response = await api.get('trending/movie/week', {
+      params: {
+        page: 1
+      }
+    })
+    trendingMovie.value = response.data.results[0]
+  }
+
+  const findPopularMovies = async () => {
+    const response = await api.get("movie/popular", {
+      params: {
+        page: 1
+      },
+    });
+    popularMovies.value = response.data.results;
+  };
+
+  return { currentMovie, getMovieDetail, findPopularMovies, popularMovies, findTrendingMovie, trendingMovie };
 });

@@ -1,10 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { Carousel, Slide, Navigation } from "vue3-carousel";
+import "vue3-carousel/dist/carousel.css";
 import api from "@/plugins/axios";
 import Loading from "vue-loading-overlay";
 import { useGenreStore } from "@/stores/genre";
+import { useMovieStore } from "@/stores/movie";
 
+const movieStore = useMovieStore();
 const router = useRouter();
 const genreStore = useGenreStore();
 const isLoading = ref(false);
@@ -15,6 +19,8 @@ const formatDate = (date) => new Date().toLocaleDateString("pt-BR");
 onMounted(async () => {
   isLoading.value = true;
   genreStore.getAllGenres("movie");
+  movieStore.findPopularMovies();
+  movieStore.findTrendingMovie();
   isLoading.value = false;
 });
 
@@ -39,6 +45,9 @@ const listMovies = async (genreId) => {
 
 <template>
   <main>
+    <div v-if="movieStore.trendingMovie" class="trendind-movie">
+      <img :src="`https://image.tmdb.org/t/p/original${movieStore.trendingMovie.backdrop_path}`" alt="">
+    </div>
     <h1>Movies Genres</h1>
     <ul>
       <loading v-model:active="isLoading" is-full-page />
@@ -52,6 +61,25 @@ const listMovies = async (genreId) => {
         {{ genre.name }}
       </li>
     </ul>
+    <div class="popular-movies">
+      <h1>Popular movies</h1>
+      <carousel :items-to-show="5">
+        <slide
+          v-for="movie in movieStore.popularMovies"
+          :key="movie.id"
+          class="popular-movies"
+        >
+          <img
+            :src="`https://image.tmdb.org/t/p/w200${movie.poster_path}`"
+            alt=""
+          />
+        </slide>
+
+        <template #addons>
+          <navigation />
+        </template>
+      </carousel>
+    </div>
     <div class="movie-list">
       <div class="movie-card" v-for="movie in movies" :key="movie.id">
         <img
