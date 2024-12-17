@@ -34,23 +34,28 @@ onMounted(async () => {
     </div>
   </main>
 
-  <p>Produtoras</p>
   <div class="companies">
-    <template v-for="company in movieStore.currentMovie.production_companies" :key="company.id">
-        <img v-if="company.logo_patch"
+    <template
+      v-for="company in movieStore.currentMovie.production_companies"
+      :key="company.id"
+    >
+      <p>Produtora</p>
+      <img
+        v-if="company.logo_patch"
         :src="`https://image.tmdb.org/t/p/w92${company.logo_path}`"
-        :alt="company.name">
-        <p v-else>{{ company.name }}</p>
+        :alt="company.name"
+      />
+      <p v-else>{{ company.name }}</p>
     </template>
   </div>
 </template>
 
 <style scoped>
-  .companies {
-    display: flex;
-    flex-direction: row;
-    column-gap: 3rem;
-    align-items: center;
-    margin-bottom: 2rem;
-  }
+.companies {
+  display: flex;
+  flex-direction: row;
+  column-gap: 3rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
 </style>

@@ -1,9 +1,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import api from "@/plugins/axios";
 import Loading from "vue-loading-overlay";
 import { useGenreStore } from "@/stores/genre";
 
+const router = useRouter();
 const genreStore = useGenreStore();
 const isLoading = ref(false);
 const tvShows = ref([]);
@@ -15,6 +17,10 @@ onMounted(async () => {
   genreStore.getAllGenres("tv");
   isLoading.value = false;
 });
+
+function openTvShow(tvShowId) {
+  router.push({ name: "TvShowDetails", params: { tvShowId } });
+}
 
 const listTvShows = async (genreId) => {
   genreStore.setCurrentGenreId(genreId);
@@ -50,6 +56,7 @@ const listTvShows = async (genreId) => {
         <img
           :src="`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`"
           :alt="tvShow.title"
+          @click="openTvShow(tvShow.id)"
         />
         <div class="tv-details">
           <p class="tv-title">{{ tvShow.name }}</p>

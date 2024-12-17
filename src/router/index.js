@@ -21,7 +21,13 @@ const router = createRouter({
     {
       path: '/movie/:movieId',
       name: 'MovieDetails',
-      component: () => import('../views/MoviesView.vue'),
+      component: () => import('../views/MovieDetailsView.vue'),
+      props: true,
+    },
+    {
+      path: '/tv/:tvShowId',
+      name: 'TvShowDetails',
+      component: () => import('../views/TvShowDetailsView.vue'),
       props: true,
     }
   ],

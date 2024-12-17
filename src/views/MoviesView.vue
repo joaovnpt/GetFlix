@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useGenreStore } from "@/stores/genre";
 import api from "@/plugins/axios";
 import Loading from "vue-loading-overlay";
+import { useGenreStore } from "@/stores/genre";
 
 const router = useRouter();
 const genreStore = useGenreStore();
@@ -19,6 +19,7 @@ onMounted(async () => {
 });
 
 function openMovie(movieId) {
+  console.log(movieId);
   router.push({ name: "MovieDetails", params: { movieId } });
 }
 
