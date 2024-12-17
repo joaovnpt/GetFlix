@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { Carousel, Slide, Navigation } from "vue3-carousel";
+import { Carousel, Slide, Navigation, Pagination } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 import api from "@/plugins/axios";
 import Loading from "vue-loading-overlay";
@@ -47,39 +47,38 @@ const listMovies = async (genreId) => {
 <template>
   <main>
     <div class="trending-movie" v-if="movieStore.trendingMovie">
-      <img :src="`https://image.tmdb.org/t/p/original${movieStore.trendingMovie.backdrop_path}`" alt="">
+      <img
+        :src="`https://image.tmdb.org/t/p/original${movieStore.trendingMovie.backdrop_path}`"
+        alt=""
+      />
       <div class="infos-wrapper">
-        <p class="week-trending"><i class="fa-solid fa-fire"></i> Outstanding of the week</p>
+        <p class="week-trending">
+          <i class="fa-solid fa-fire"></i> Outstanding of the week
+        </p>
         <h1>{{ movieStore.trendingMovie.title }}</h1>
-        <p class="rate"><span><img class="imdb" src="../assets/imdb.png" alt=""></span> {{ movieStore.trendingMovie.vote_average }}/10</p>
+        <p class="rate">
+          <span><img class="imdb" src="../assets/imdb.png" alt="" /></span>
+          {{ movieStore.trendingMovie.vote_average }}/10
+        </p>
         <p>{{ movieStore.trendingMovie.overview }}</p>
       </div>
     </div>
-    <h1>Movies Genres</h1>
-    <ul>
-      <loading v-model:active="isLoading" is-full-page />
-      <li
-        v-for="genre in genreStore.genres"
-        :key="genre.id"
-        @click="listMovies(genre.id)"
-        class="genre-item"  
-        :class="{ active: genre.id === genreStore.currentGenreId }"
-      >
-        {{ genre.name }}
-      </li>
-    </ul>
+
     <div class="popular-movies">
-      <h1>Popular movies</h1>
-      <carousel :items-to-show="5">
+      <h1>Popular</h1>
+      <carousel class="popular-carousel" :items-to-show="5.8">
         <slide
           v-for="movie in movieStore.popularMovies"
           :key="movie.id"
-          class="popular-movies"
+          class="carousel-slide"
         >
           <img
             :src="`https://image.tmdb.org/t/p/w200${movie.poster_path}`"
             alt=""
           />
+          <div class="carousel-infos">
+            <p>{{ movie.title }}</p>
+          </div>
         </slide>
 
         <template #addons>
@@ -87,6 +86,21 @@ const listMovies = async (genreId) => {
         </template>
       </carousel>
     </div>
+
+    <h1>Movies Genres</h1>
+    <ul>
+      <loading v-model:active="isLoading" is-full-page />
+      <li
+        v-for="genre in genreStore.genres"
+        :key="genre.id"
+        @click="listMovies(genre.id)"
+        class="genre-item"
+        :class="{ active: genre.id === genreStore.currentGenreId }"
+      >
+        {{ genre.name }}
+      </li>
+    </ul>
+
     <div class="movie-list">
       <div class="movie-card" v-for="movie in movies" :key="movie.id">
         <img
@@ -122,13 +136,13 @@ const listMovies = async (genreId) => {
   filter: brightness(0.5);
   height: 100%;
   width: 100%;
+  object-fit: cover;
 }
-
 
 .infos-wrapper {
   position: absolute;
   top: 20%;
-  margin-left: 100px;
+  margin: auto 100px;
   width: 400px;
   color: white;
   text-shadow: 3px 3px 2px rgba(19, 19, 19, 0.219);
@@ -137,14 +151,14 @@ const listMovies = async (genreId) => {
 .infos-wrapper h1 {
   font-size: 42px;
   font-weight: 600;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
-.rate{
+.rate {
   display: flex;
   align-items: center;
   height: 30px;
-  gap: .5rem;
+  gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
@@ -154,9 +168,34 @@ const listMovies = async (genreId) => {
   align-items: center;
 }
 
-.imdb{
+.imdb {
   width: 40px !important;
   height: 20px !important;
+}
+
+.popular-movies {
+  margin: 0 auto;
+  width: 88vw;
+}
+
+.popular-movies h1 {
+  margin: 50px 0px;
+}
+
+.carousel-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  color: black;
+}
+
+.carousel-infos {
+  display: flex;
+  align-items: start;
+  margin-top: 1rem;
+  width: 200px;
+  overflow: hidden;
 }
 
 .active {

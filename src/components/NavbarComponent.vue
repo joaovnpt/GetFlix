@@ -2,40 +2,45 @@
 
 <template>
   <nav>
-    <div class="logo">
-      <router-link to="/movies"
-        ><img src="../assets/logo.png" alt=""
-      /></router-link>
-    </div>
-    <div class="series">
-      <router-link class="series-link" to="/tv">Series</router-link>
-    </div>
-    <div class="search-bar">
-      <i class="fa fa-search"></i>
-      <input
-        type="text"
-        placeholder="What do you want to watch?"
-        class="search-input"
-      />
-    </div>
-    <div class="sign-in">
-      <router-link class="sign-in-link" to="/signin">Sign in</router-link>
+    <div class="links-wrapper">
+      <div class="logo">
+        <router-link to="/movies"
+          ><img src="../assets/logo.png" alt=""
+        /></router-link>
+      </div>
+      <div class="series">
+        <router-link class="series-link" to="/tv">Series</router-link>
+      </div>
+      <div class="search-bar">
+        <i class="fa fa-search"></i>
+        <input
+          type="text"
+          placeholder="What do you want to watch?"
+          class="search-input"
+        />
+      </div>
+      <div class="sign-in">
+        <router-link class="sign-in-link" to="/signin">Sign in</router-link>
+      </div>
     </div>
   </nav>
 </template>
 
 <style scoped>
 nav {
-  margin: 0 auto;
   z-index: 1000;
   position: absolute;
   top: 0;
+  height: 100px;
+  width: 100%;
+}
+
+.links-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
-  width: 100%;
-  height: 100px;
+  justify-content: space-between;
+  margin: auto 100px;
 }
 
 .logo img {
@@ -43,7 +48,8 @@ nav {
   height: 120px;
 }
 
-.series-link, .sign-in-link {
+.series-link,
+.sign-in-link {
   font-size: 1rem;
   text-decoration: none;
   color: #ffffff;
