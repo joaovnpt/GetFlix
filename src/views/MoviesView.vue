@@ -7,6 +7,7 @@ import api from "@/plugins/axios";
 import Loading from "vue-loading-overlay";
 import { useGenreStore } from "@/stores/genre";
 import { useMovieStore } from "@/stores/movie";
+import NavbarComponent from "@/components/NavbarComponent.vue";
 
 const movieStore = useMovieStore();
 const router = useRouter();
@@ -45,8 +46,13 @@ const listMovies = async (genreId) => {
 
 <template>
   <main>
-    <div v-if="movieStore.trendingMovie" class="trendind-movie">
+    <div class="trending-movie" v-if="movieStore.trendingMovie">
       <img :src="`https://image.tmdb.org/t/p/original${movieStore.trendingMovie.backdrop_path}`" alt="">
+      <div class="infos-wrapper">
+        <h1>Title</h1>
+        <p>Rate</p>
+        <p>Description</p>
+      </div>
     </div>
     <h1>Movies Genres</h1>
     <ul>
@@ -55,7 +61,7 @@ const listMovies = async (genreId) => {
         v-for="genre in genreStore.genres"
         :key="genre.id"
         @click="listMovies(genre.id)"
-        class="genre-item"
+        class="genre-item"  
         :class="{ active: genre.id === genreStore.currentGenreId }"
       >
         {{ genre.name }}
@@ -106,6 +112,23 @@ const listMovies = async (genreId) => {
 </template>
 
 <style scoped>
+.trending-movie {
+  position: relative;
+  width: fit-content;
+}
+
+.trending-movie img {
+  filter: brightness(0.5);
+  height: 100%;
+  width: 100%;
+}
+
+.infos-wrapper {
+  position: absolute;
+  top: 20%;
+  margin-left: 100px;
+}
+
 .active {
   background-color: #67b086;
   font-weight: bolder;

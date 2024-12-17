@@ -20,22 +20,30 @@
 
 <style scoped>
 nav {
+  margin: 0 auto;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
   width: 100%;
   height: 100px;
-  background: linear-gradient(#000000, #00000000);
 }
 
 .logo img {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
 }
 
 .series-link {
+  font-size: 20px;
   text-decoration: none;
+  color: #dad8d8;
+}
+
+::placeholder {
   color: #dad8d8;
 }
 
@@ -65,6 +73,7 @@ nav {
 }
 
 p {
+  font-size: 20px;
   color: #dad8d8;
 }
 </style>
