@@ -25,11 +25,12 @@ onMounted(async () => {
       />
 
       <div class="details">
-        <h1>Série: {{ tvStore.currentTvShow.name }}</h1>
+        <h1>Serie: {{ tvStore.currentTvShow.name }}</h1>
         <p>{{ tvStore.currentTvShow.tagline }}</p>
         <p>{{ tvStore.currentTvShow.overview }}</p>
-        <p>Orçamento: ${{ tvStore.currentTvShow.budget }}</p>
-        <p>Avaliação: {{ tvStore.currentTvShow.vote_average }}</p>
+        <p>Seasons: {{ tvStore.currentTvShow.number_of_seasons }}</p>
+        <p>Episodes: {{ tvStore.currentTvShow.number_of_episodes }}</p>
+        <p>Rate: {{ tvStore.currentTvShow.vote_average }}</p>
       </div>
     </div>
   </main>
