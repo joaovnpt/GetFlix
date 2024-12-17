@@ -9,3 +9,7 @@
     margin: 0;
     font-family: var(--main-font);
 }
+
+body {
+    background-color: #1e1e1e;
+}
