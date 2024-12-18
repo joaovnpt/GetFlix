@@ -10,6 +10,8 @@ export const useGenreStore = defineStore("genre", () => {
 
   const currentGenreId = computed(() => state.currentGenreId)
 
+  const formatDate = (date) => new Date().toLocaleDateString("pt-BR");
+
   const setCurrentGenreId = (genreId) => {
     state.currentGenreId = genreId
   }
@@ -25,5 +27,9 @@ export const useGenreStore = defineStore("genre", () => {
     state.genres = response.data.genres;
   };
 
-  return { genres, getAllGenres, getGenreName, currentGenreId, setCurrentGenreId };
+  const getDateYear = (date) => {
+    return date.substr(0, 4)
+  }
+
+  return { genres, getAllGenres, getGenreName, currentGenreId, setCurrentGenreId, formatDate, getDateYear };
 });
