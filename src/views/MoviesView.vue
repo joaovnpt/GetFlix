@@ -100,10 +100,11 @@ onMounted(async () => {
   box-shadow: 0 5px 5px #00000041;
   transition: 300ms ease-in-out;
   border-radius: 5px;
+  transition: 250ms ease;
 }
 
-.popular-movie-poster {
-  transform: scale(1.02);
+.popular-movie-poster:hover {
+  transform: scale(1.06);
 }
 
 .carousel-infos {
