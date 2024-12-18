@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { Carousel, Slide, Navigation, Pagination } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 import Loading from "vue-loading-overlay";
@@ -7,7 +8,10 @@ import { useMovieStore } from "@/stores/movie";
 import TrendingMovieBanner from "@/components/TrendingMovieBanner.vue";
 import MoviesGenres from '@/components/MoviesGenres.vue'
 import { useGenreStore } from "@/stores/genre";
+import RealesesMovies from "@/components/RealesesMovies.vue";
+import TopRatedMovies from "@/components/TopRatedMovies.vue";
 
+const router = useRouter()
 const genreStore = useGenreStore()
 const movieStore = useMovieStore();
 const isLoading = ref(false);
@@ -16,6 +20,10 @@ const carouselConfig = {
   wrapAround: true,
   transition: 400,
 };
+
+function openMovie(movieId) {
+  router.push({ name: "MovieDetails", params: { movieId } });
+}
 
 onMounted(async () => {
   isLoading.value = true;
@@ -45,6 +53,7 @@ onMounted(async () => {
             :src="`https://image.tmdb.org/t/p/w200${movie.poster_path}`"
             alt=""
             class="popular-movie-poster"
+            @click="openMovie(movie.id)"
           />
           <div class="carousel-infos">
             <p class="movie-title">{{ movie.title }}</p>
@@ -61,6 +70,8 @@ onMounted(async () => {
     </div>
 
     <MoviesGenres />
+    <RealesesMovies />
+    <TopRatedMovies />
   </main>
 </template>
 
