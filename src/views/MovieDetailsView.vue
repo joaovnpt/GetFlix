@@ -1,8 +1,15 @@
 <script setup>
-import { defineProps, onMounted } from "vue";
+import { defineProps, onMounted, ref } from "vue";
 import { useMovieStore } from "@/stores/movie";
+import Loading from "vue-loading-overlay";
+import { useGenreStore } from "@/stores/genre";
+import api from "@/plugins/axios";
 
+const isLoading = ref(false);
+const genreStore = useGenreStore();
 const movieStore = useMovieStore();
+const movies = ref([]);
+const movieGenreNames = [];
 
 const props = defineProps({
   movieId: {
@@ -12,8 +19,25 @@ const props = defineProps({
 });
 
 onMounted(async () => {
+  isLoading.value = true;
   await movieStore.getMovieDetail(props.movieId);
+  await listGenresById(props.movieId)
+  genreStore.getAllGenres("movie");
+  isLoading.value = false;
 });
+
+const listGenresById = async (movieId) => {
+  // Fiz sozinho ;)
+  const response = await api.get(`movie/${movieId}`); // lista de objetos com os dados do filme (objetos, listas, numbers...)
+  const movieGenres = response.data.genres; // movieGenres agora é a lista de objetos genres da url a cima (id: 1, name: fantasy...)
+
+  for (const genre of movieGenres) {
+    const name = genre.name; // pra cada objeto da lista, pega a propriedade name
+    console.log(name)
+    movieGenreNames.push(name); //puxa o nome pra lista, pegando assim todos os generos do filme pelo id
+  }
+  console.log(movieGenreNames);
+};
 </script>
 
 <template>
@@ -25,11 +49,16 @@ onMounted(async () => {
       />
 
       <div class="details">
-        <h1>Filme: {{ movieStore.currentMovie.title }}</h1>
+        <h1>Movie: {{ movieStore.currentMovie.title }}</h1>
         <p>{{ movieStore.currentMovie.tagline }}</p>
         <p>{{ movieStore.currentMovie.overview }}</p>
-        <p>Orçamento: ${{ movieStore.currentMovie.budget }}</p>
-        <p>Avaliação: {{ movieStore.currentMovie.vote_average }}</p>
+        <p>Budget: ${{ movieStore.currentMovie.budget }}</p>
+        <p>Rating: {{ movieStore.currentMovie.vote_average }}/10</p>
+        <div>
+          <p class="movie-genres">
+            Genres: {{ movieGenreNames.join(', ') }}
+          </p>
+        </div>
       </div>
     </div>
   </main>
@@ -39,7 +68,7 @@ onMounted(async () => {
       v-for="company in movieStore.currentMovie.production_companies"
       :key="company.id"
     >
-      <p>Produtora</p>
+      <p>Companies:</p>
       <img
         v-if="company.logo_patch"
         :src="`https://image.tmdb.org/t/p/w92${company.logo_path}`"
