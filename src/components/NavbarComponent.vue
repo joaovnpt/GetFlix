@@ -4,9 +4,12 @@
   <nav>
     <div class="links-wrapper">
       <div class="logo">
-        <router-link to="/movies"
+        <router-link to="/"
           ><img src="../assets/logo.png" alt=""
         /></router-link>
+      </div>
+      <div class="movies">
+        <router-link class="movies-link" to="/">Movies</router-link>
       </div>
       <div class="series">
         <router-link class="series-link" to="/tv">Series</router-link>
@@ -49,10 +52,17 @@ nav {
 }
 
 .series-link,
-.sign-in-link {
+.sign-in-link, .movies-link {
   font-size: 1rem;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
+  transition: 300ms ease-in-out;
+  border-radius: 15px;
+}
+
+.series-link:hover,
+.sign-in-link:hover, .movies-link:hover {
+  text-decoration: underline;
 }
 
 ::placeholder {
@@ -72,6 +82,7 @@ nav {
 }
 
 .search-input {
+  width: 90%;
   border: none;
   color: #dad8d8;
   outline: none;
