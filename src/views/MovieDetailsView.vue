@@ -9,7 +9,7 @@ const isLoading = ref(false);
 const genreStore = useGenreStore();
 const movieStore = useMovieStore();
 const movies = ref([]);
-const movieGenreNames = [];
+const movieGenreNames = ref([]);
 
 const props = defineProps({
   movieId: {
@@ -24,19 +24,20 @@ onMounted(async () => {
   await listGenresById(props.movieId)
   genreStore.getAllGenres("movie");
   isLoading.value = false;
+  console.log(movieGenreNames);
 });
 
 const listGenresById = async (movieId) => {
   // Fiz sozinho ;)
   const response = await api.get(`movie/${movieId}`); // lista de objetos com os dados do filme (objetos, listas, numbers...)
+  console.log(response.data)
   const movieGenres = response.data.genres; // movieGenres agora é a lista de objetos genres da url a cima (id: 1, name: fantasy...)
 
   for (const genre of movieGenres) {
     const name = genre.name; // pra cada objeto da lista, pega a propriedade name
-    console.log(name)
-    movieGenreNames.push(name); //puxa o nome pra lista, pegando assim todos os generos do filme pelo id
+    movieGenreNames.value.push(name); //puxa o nome pra lista, pegando assim todos os generos do filme pelo id
+    console.log(movieGenreNames.value)
   }
-  console.log(movieGenreNames);
 };
 </script>
 
