@@ -1,4 +1,4 @@
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import { defineStore } from "pinia";
 import api from "@/plugins/axios";
 
@@ -7,12 +7,14 @@ export const useGenreStore = defineStore("genre", () => {
     genres: [],
     currentGenreId: null,
   });
+  const isGenresEmpty = ref(true)
 
   const currentGenreId = computed(() => state.currentGenreId)
 
   const formatDate = (date) => new Date().toLocaleDateString("pt-BR");
 
   const setCurrentGenreId = (genreId) => {
+    isGenresEmpty.value = false
     state.currentGenreId = genreId
   }
 
@@ -31,5 +33,5 @@ export const useGenreStore = defineStore("genre", () => {
     return date.substr(0, 4)
   }
 
-  return { genres, getAllGenres, getGenreName, currentGenreId, setCurrentGenreId, formatDate, getDateYear };
+  return { genres, getAllGenres, getGenreName, currentGenreId, setCurrentGenreId, formatDate, getDateYear, isGenresEmpty };
 });
