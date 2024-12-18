@@ -7,7 +7,10 @@ export const useMovieStore = defineStore("movie", () => {
     currentMovie: {},
   });
 
+  const movies = ref([])
+  const topRatedMovies = ref([])
   const popularMovies = ref([]);
+  const releasesMovies = ref([])
   const trendingMovie = ref(null)
   const currentMovie = computed(() => state.currentMovie);
 
@@ -34,5 +37,23 @@ export const useMovieStore = defineStore("movie", () => {
     popularMovies.value = response.data.results;
   };
 
-  return { currentMovie, getMovieDetail, findPopularMovies, popularMovies, findTrendingMovie, trendingMovie };
+  const findReleasesMovies = async () => {
+    const response = await api.get('movie/now_playing', {
+      params: {
+        page: 1
+      },
+    })
+    releasesMovies.value = response.data.results
+  }
+
+  const findTopRatedMovies = async () => {
+    const response = await api.get('movie/top_rated', {
+      params: {
+        page: 1
+      },
+    })
+    topRatedMovies.value = response.data.results
+  }
+
+  return { currentMovie, getMovieDetail, findPopularMovies, popularMovies, findTrendingMovie, trendingMovie, movies, findReleasesMovies, releasesMovies, findTopRatedMovies, topRatedMovies };
 });
