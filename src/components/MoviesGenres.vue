@@ -6,11 +6,13 @@ import Loading from "vue-loading-overlay";
 import { useRouter } from "vue-router";
 import { useGenreStore } from "@/stores/genre";
 import api from "@/plugins/axios";
+import { useMovieStore } from "@/stores/movie";
+import MoviesByGenres from "./MoviesByGenres.vue";
 
-const router = useRouter()
+const movieStore = useMovieStore();
+const router = useRouter();
 const genreStore = useGenreStore();
 const isLoading = ref(false);
-const movies = ref([]);
 
 onMounted(async () => {
   isLoading.value = true;
@@ -27,13 +29,10 @@ const listMovies = async (genreId) => {
       language: "pt-BR",
     },
   });
-  movies.value = response.data.results;
+  console.log(genreStore.isGenresEmpty)
+  movieStore.movies.value = response.data.results;
   isLoading.value = false;
 };
-
-function openMovie(movieId) {
-  router.push({ name: "MovieDetails", params: { movieId } });
-}
 
 const carouselConfig = {
   itemsToShow: 3.95,
@@ -43,9 +42,14 @@ const carouselConfig = {
 </script>
 
 <template>
-  <h1>Movies Genres</h1>
+  <h1>Genres</h1>
   <loading v-model:active="isLoading" is-full-page />
-  <Carousel v-bind="carouselConfig" :items-to-show="10" :loop="true" class="genres-carousel">
+  <Carousel
+    v-bind="carouselConfig"
+    :items-to-show="10"
+    :loop="true"
+    class="genres-carousel"
+  >
     <Slide
       v-for="genre in genreStore.genres"
       :key="genre.id"
@@ -53,42 +57,33 @@ const carouselConfig = {
       class="genre-item"
       :class="{ active: genre.id === genreStore.currentGenreId }"
     >
-      {{ genre.name }}
+      <p
+        class="carousel-item"
+        :class="{ active: genre.id === genreStore.currentGenreId }"
+      >
+        {{ genre.name }}
+      </p>
     </Slide>
     <template #addons>
       <Navigation />
     </template>
   </Carousel>
-
-  <Carousel v-bind="carouselConfig" class="genres-movies-carousel" :items-to-show="6">
-    <Slide v-for="movie in movies" :key="movie.id" class="carousel-slide">
-      <img
-        :src="`https://image.tmdb.org/t/p/w200${movie.poster_path}`"
-        alt=""
-        class="popular-movie-poster"
-        @click="openMovie(movie.id)"
-      />
-      <div class="carousel-infos">
-        <p class="movie-title">{{ movie.title }}</p>
-        <p class="movie-rate">
-          <img src="../assets/imdb.png" alt="" />{{ movie.vote_average }}/10
-        </p>
-      </div>
-    </Slide>
-    <template #addons>
-      <Navigation />
-    </template>
-  </Carousel>
+  
+  <MoviesByGenres v-if="!genreStore.isGenresEmpty"/>
 </template>
 
 <style scoped>
 h1 {
-  margin: 0 100px 50px 100px;
+  width: fit-content;
+  margin: 50px auto;
 }
 
 .genres-carousel {
   margin: 0 auto 50px auto;
   width: 88vw;
+}
+.carousel-item {
+  font-size: 14px;
 }
 
 .genre-item {
@@ -129,57 +124,5 @@ h1 {
   background-color: #fff;
   color: #000;
   font-weight: bolder;
-}
-
-/* Movies carousel */
-
-.genres-movies-carousel {
-  margin: 0 auto 50px auto;
-  width: 88vw;
-}
-
-.carousel-slide {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: start;
-  color: black;
-  padding: 1rem;
-  text-align: start;
-}
-
-.popular-movie-poster {
-  cursor: pointer;
-  box-shadow: 0 5px 5px #00000041;
-  transition: 300ms ease-in-out;
-  border-radius: 5px;
-}
-
-.popular-movie-poster {
-  transform: scale(1.02);
-}
-
-.carousel-infos {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: start;
-  margin-top: 1rem;
-  width: 200px;
-  overflow: hidden;
-}
-
-.movie-title {
-  font-weight: 500;
-}
-
-.movie-rate {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.movie-rate img {
-  width: 28px;
 }
 </style>
