@@ -3,14 +3,12 @@ import { onMounted, ref } from "vue";
 import { Carousel, Slide, Navigation, Pagination } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 import Loading from "vue-loading-overlay";
-import { useRouter } from "vue-router";
 import { useGenreStore } from "@/stores/genre";
 import api from "@/plugins/axios";
 import { useMovieStore } from "@/stores/movie";
 import MoviesByGenres from "./MoviesByGenres.vue";
 
 const movieStore = useMovieStore();
-const router = useRouter();
 const genreStore = useGenreStore();
 const isLoading = ref(false);
 
