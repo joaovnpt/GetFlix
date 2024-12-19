@@ -42,13 +42,41 @@ nav {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  margin: auto 100px;
+  justify-content: start;
+  gap: 4rem;
+  margin: 1rem 100px;
 }
 
 .logo img {
-  width: 120px;
-  height: 120px;
+  display: flex;
+  align-content: center;
+}
+
+.sign-in {
+  margin-left: auto;
+  background-color: #fff;
+  width: 70px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 400ms ease;
+}
+
+.sign-in:hover {
+  background-color: #838383;
+}
+
+.sign-in-link {
+  color: #1e1e1e !important;
+  height: fit-content;
+  width: fit-content;
+  font-weight: 500;
+}
+
+.search-bar {
+  margin: 0 auto;
 }
 
 .series-link,
@@ -60,8 +88,7 @@ nav {
   border-radius: 15px;
 }
 
-.series-link:hover,
-.sign-in-link:hover, .movies-link:hover {
+.series-link:hover, .movies-link:hover {
   text-decoration: underline;
 }
 
