@@ -1,11 +1,13 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import Loading from "vue-loading-overlay";
 import { useMovieStore } from "@/stores/movie";
 import { useGenreStore } from "@/stores/genre";
 import { Carousel, Slide, Navigation, Pagination } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 
+const router = useRouter()
 const isLoading = ref(false);
 const movieStore = useMovieStore()
 const genreStore = useGenreStore()
@@ -87,12 +89,12 @@ const carouselConfig = {
 .releases-movie-poster {
   cursor: pointer;
   box-shadow: 0 5px 5px #00000041;
-  transition: 300ms ease-in-out;
+  transition: 250ms ease-in-out;
   border-radius: 5px;
 }
 
-.releases-movie-poster {
-  transform: scale(1.02);
+.releases-movie-poster:hover {
+  transform: scale(1.06);
 }
 
 .carousel-infos {

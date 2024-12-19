@@ -50,6 +50,11 @@ nav {
 .logo img {
   display: flex;
   align-content: center;
+  transition: 100ms ease-in-out;
+}
+
+.logo img:active {
+  transform: scale(0.95);
 }
 
 .sign-in {

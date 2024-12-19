@@ -1,16 +1,23 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { useMovieStore } from "@/stores/movie";
 import Loading from "vue-loading-overlay";
 
+const router = useRouter()
 const movieStore = useMovieStore();
 const isLoading = ref(false)
 
 onMounted(async() => {
   isLoading.value = true
   await movieStore.findTrendingMovie()
+  console.log(movieStore.trendingMovie)
   isLoading.value = false
 })
+
+function openMovie(movieId) {
+  router.push({ name: "MovieDetails", params: { movieId } });
+}
 </script>
 
 <template>
@@ -30,6 +37,7 @@ onMounted(async() => {
         {{ movieStore.trendingMovie.vote_average }}/10
       </p>
       <p>{{ movieStore.trendingMovie.overview }}</p>
+      <button @click="openMovie(movieStore.trendingMovie.id)" class="show-details-button">Show details</button>
     </div>
   </div>
 </template>
@@ -79,5 +87,23 @@ onMounted(async() => {
 .imdb {
   width: 40px !important;
   height: 20px !important;
+}
+
+.show-details-button {
+  margin-top: 1rem;
+  width: 120px;
+  height: 35px;
+  background-color: #fff;
+  color: #1e1e1e;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: 300ms ease;
+}
+
+.show-details-button:hover {
+  background-color: #d1d1d1;
+  cursor: pointer;
 }
 </style>

@@ -89,12 +89,12 @@ const carouselConfig = {
 .top-rated-movie-poster {
   cursor: pointer;
   box-shadow: 0 5px 5px #00000041;
-  transition: 300ms ease-in-out;
+  transition: 250ms ease-in-out;
   border-radius: 5px;
 }
 
-.top-rated-movie-poster {
-  transform: scale(1.02);
+.top-rated-movie-poster:hover {
+  transform: scale(1.06);
 }
 
 .carousel-infos {

@@ -91,6 +91,7 @@ h1 {
   border: 1px solid #fff;
   margin: 0 1rem 0 1rem;
   height: 30px;
+  transition: 200ms ease;
 }
 
 .genre-name {

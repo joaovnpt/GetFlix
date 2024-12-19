@@ -28,7 +28,7 @@ const carouselConfig = {
       <img
         :src="`https://image.tmdb.org/t/p/w200${movie.poster_path}`"
         alt=""
-        class="popular-movie-poster"
+        class="movie-poster"
         @click="openMovie(movie.id)"
       />
       <div class="carousel-infos">
@@ -60,15 +60,15 @@ const carouselConfig = {
   text-align: start;
 }
 
-.popular-movie-poster {
+.movie-poster {
   cursor: pointer;
   box-shadow: 0 5px 5px #00000041;
-  transition: 300ms ease-in-out;
+  transition: 250ms ease;
   border-radius: 5px;
 }
 
-.popular-movie-poster {
-  transform: scale(1.02);
+.movie-poster:hover {
+  transform: scale(1.06);
 }
 
 .carousel-infos {

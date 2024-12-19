@@ -101,6 +101,7 @@ i {
   font-size: 1.5rem;
 }
 hr {
+  width: 600px;
   border-color: rgb(194, 194, 194);
 }
 .content {
@@ -128,6 +129,7 @@ hr {
 }
 
 .movie-overview {
+  width: 600px;
   color: rgb(150, 150, 150);
   margin-bottom: 15px;
 }
