@@ -16,7 +16,7 @@ const isLoading = ref(false);
 
 onMounted(async () => {
   isLoading.value = true;
-  genreStore.getAllGenres("movie");
+  await genreStore.getAllGenres("movie");
   isLoading.value = false;
 });
 
@@ -29,7 +29,6 @@ const listMovies = async (genreId) => {
       language: "pt-BR",
     },
   });
-  console.log(genreStore.isGenresEmpty)
   movieStore.movies.value = response.data.results;
   isLoading.value = false;
 };

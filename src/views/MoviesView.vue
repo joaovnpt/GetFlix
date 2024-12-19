@@ -27,14 +27,14 @@ function openMovie(movieId) {
 
 onMounted(async () => {
   isLoading.value = true;
-  movieStore.findPopularMovies();
-  movieStore.findTrendingMovie();
+  await movieStore.findPopularMovies();
   isLoading.value = false;
 });
 </script>
 
 <template>
   <main>
+    <loading v-model:active="isLoading" is-full-page />
     <TrendingMovieBanner />
 
     <div class="popular-movies">

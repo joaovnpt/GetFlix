@@ -18,7 +18,7 @@ function openMovie(movieId) {
 
 onMounted(async () => {
     isLoading.value = true
-    movieStore.findTopRatedMovies()
+    await movieStore.findTopRatedMovies()
     isLoading.value = false
 })
 
