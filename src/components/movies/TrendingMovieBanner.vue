@@ -11,7 +11,6 @@ const isLoading = ref(false)
 onMounted(async() => {
   isLoading.value = true
   await movieStore.findTrendingMovie()
-  console.log(movieStore.trendingMovie)
   isLoading.value = false
 })
 
