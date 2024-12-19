@@ -1,90 +1,136 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import api from "@/plugins/axios";
+import { Carousel, Slide, Navigation, Pagination } from "vue3-carousel";
+import "vue3-carousel/dist/carousel.css";
 import Loading from "vue-loading-overlay";
+//Stores
+import { useTvStore } from "@/stores/tv";
 import { useGenreStore } from "@/stores/genre";
+//Components
+import TvShowGenres from "@/components/tvShows/TvShowGenres.vue";
+import TrendingTvShowBaner from "@/components/tvShows/TrendingTvShowBaner.vue";
+import RealesesMovies from "@/components/movies/RealesesMovies.vue";
+import TopRatedMovies from "@/components/movies/TopRatedMovies.vue";
 
 const router = useRouter();
-const genreStore = useGenreStore();
 const isLoading = ref(false);
-const tvShows = ref([]);
-
-const formatDate = (date) => new Date().toLocaleDateString("pt-BR");
-
-onMounted(async () => {
-  isLoading.value = true;
-  genreStore.getAllGenres("tv");
-  isLoading.value = false;
-});
+const genreStore = useGenreStore();
+const tvStore = useTvStore();
+const carouselConfig = {
+  itemsToShow: 3.95,
+  wrapAround: true,
+  transition: 400,
+};
 
 function openTvShow(tvShowId) {
   router.push({ name: "TvShowDetails", params: { tvShowId } });
 }
 
-const listTvShows = async (genreId) => {
-  genreStore.setCurrentGenreId(genreId);
+onMounted(async () => {
   isLoading.value = true;
-  const response = await api.get("discover/tv", {
-    params: {
-      with_genres: genreId,
-      language: "pt-BR",
-    },
-  });
-  tvShows.value = response.data.results;
+  await tvStore.findPopularTvShows();
   isLoading.value = false;
-};
+});
 </script>
 
 <template>
   <main>
-    <h1>Tv Show Genres</h1>
-    <ul>
-      <loading v-model:active="isLoading" is-full-page />
-      <li
-        @click="listTvShows(genre.id)"
-        v-for="genre in genreStore.genres"
-        :key="genre.id"
-        class="genre-item"
-        :class="{ active: genre.id === genreStore.currentGenreId }"
+    <loading v-model:active="isLoading" is-full-page />
+    <TrendingTvShowBaner />
+
+    <div class="popular-movies">
+      <h1>Popular</h1>
+      <Carousel
+        v-bind="carouselConfig"
+        class="popular-carousel"
+        :items-to-show="6"
       >
-        {{ genre.name }}
-      </li>
-    </ul>
-    <div class="tv-list">
-      <div class="tv-card" v-for="tvShow in tvShows" :key="tvShow.id">
-        <img
-          :src="`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`"
-          :alt="tvShow.title"
-          @click="openTvShow(tvShow.id)"
-        />
-        <div class="tv-details">
-          <p class="tv-title">{{ tvShow.name }}</p>
-          <p class="tv-release-date">{{ formatDate(tvShow.first_air_date) }}</p>
-          <p class="tv-genres">
-            <span
-              v-for="genre_id in tvShow.genre_ids"
-              :key="genre_id"
-              @click="listTvShows(genre_id)"
-              :class="{ active: genre_id === genreStore.currentGenreId }"
-              >{{ genreStore.getGenreName(genre_id) }}</span
-            >
-          </p>
-        </div>
-      </div>
+        <Slide
+          v-for="tvShow in tvStore.popularTvShows"
+          :key="tvShow.id"
+          class="carousel-slide"
+        >
+          <img
+            :src="`https://image.tmdb.org/t/p/w200${tvShow.poster_path}`"
+            alt=""
+            class="popular-movie-poster"
+            @click="openTvShow(tvShow.id)"
+          />
+          <div class="carousel-infos">
+            <p class="movie-title">{{ tvShow.name }}</p>
+            <p class="movie-rate">
+              <img src="../assets/imdb.png" alt="" />{{ tvShow.vote_average }}/10
+            </p>
+            <p class="movie-date">
+              {{ genreStore.getDateYear(tvShow.first_air_date) }}
+            </p>
+          </div>
+        </Slide>
+        <template #addons>
+          <Navigation />
+        </template>
+      </Carousel>
     </div>
+
+    <TvShowGenres />
+    <RealesesMovies />
+    <TopRatedMovies />
   </main>
 </template>
 
-<style>
-.active {
-  background-color: #67b086;
-  font-weight: bolder;
+<style scoped>
+.popular-movies {
+  margin: 0 auto 50px auto;
+  width: 88vw;
 }
 
-.movie-genres span.active {
-  background-color: #abc322;
-  color: #000;
-  font-weight: bolder;
+.popular-movies h1 {
+  margin: 50px 0px;
+}
+
+.carousel-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  color: black;
+  padding: 1rem;
+  text-align: start;
+}
+
+.popular-movie-poster {
+  cursor: pointer;
+  box-shadow: 0 5px 5px #00000041;
+  transition: 300ms ease-in-out;
+  border-radius: 5px;
+  transition: 250ms ease;
+}
+
+.popular-movie-poster:hover {
+  transform: scale(1.06);
+}
+
+.carousel-infos {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-top: 1rem;
+  width: 200px;
+  overflow: hidden;
+}
+
+.movie-title {
+  font-weight: 500;
+}
+
+.movie-rate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.movie-rate img {
+  width: 28px;
 }
 </style>

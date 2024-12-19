@@ -4,9 +4,11 @@ import { useRouter } from "vue-router";
 import { Carousel, Slide, Navigation, Pagination } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 import Loading from "vue-loading-overlay";
+//Stores
 import { useMovieStore } from "@/stores/movie";
-import TrendingMovieBanner from "@/components/movies/TrendingMovieBanner.vue";
 import { useGenreStore } from "@/stores/genre";
+//Components
+import TrendingMovieBanner from "@/components/movies/TrendingMovieBanner.vue";
 import MoviesGenres from '@/components/movies/MoviesGenres.vue'
 import RealesesMovies from "@/components/movies/RealesesMovies.vue";
 import TopRatedMovies from "@/components/movies/TopRatedMovies.vue";
