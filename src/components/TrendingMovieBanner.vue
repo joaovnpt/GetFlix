@@ -1,10 +1,20 @@
 <script setup>
+import { ref, onMounted } from "vue";
 import { useMovieStore } from "@/stores/movie";
+import Loading from "vue-loading-overlay";
 
 const movieStore = useMovieStore();
+const isLoading = ref(false)
+
+onMounted(async() => {
+  isLoading.value = true
+  await movieStore.findTrendingMovie()
+  isLoading.value = false
+})
 </script>
 
 <template>
+  <loading v-model:active="isLoading" is-full-page />
   <div class="trending-movie" v-if="movieStore.trendingMovie">
     <img
       :src="`https://image.tmdb.org/t/p/original${movieStore.trendingMovie.backdrop_path}`"
