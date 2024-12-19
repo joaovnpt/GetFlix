@@ -26,7 +26,7 @@ onMounted(async() => {
       </p>
       <h1>{{ movieStore.trendingMovie.title }}</h1>
       <p class="banner-rate">
-        <span><img class="imdb" src="../assets/imdb.png" alt="" /></span>
+        <span><img class="imdb" src="../../assets/imdb.png" alt="" /></span>
         {{ movieStore.trendingMovie.vote_average }}/10
       </p>
       <p>{{ movieStore.trendingMovie.overview }}</p>

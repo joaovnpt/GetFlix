@@ -50,7 +50,7 @@ const carouselConfig = {
         <div class="carousel-infos">
           <p class="movie-title">{{ movie.title }}</p>
           <p class="movie-rate">
-            <img src="../assets/imdb.png" alt="" />{{ movie.vote_average }}/10
+            <img src="../../assets/imdb.png" alt="" />{{ movie.vote_average }}/10
           </p>
           <p class="movie-date">
             {{ genreStore.getDateYear(movie.release_date) }}
