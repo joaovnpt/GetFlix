@@ -7,12 +7,12 @@ export const useMovieStore = defineStore("movie", () => {
     currentMovie: {},
   });
 
+  const currentMovie = computed(() => state.currentMovie);
   const movies = ref([])
   const topRatedMovies = ref([])
   const popularMovies = ref([]);
   const releasesMovies = ref([])
   const trendingMovie = ref(null)
-  const currentMovie = computed(() => state.currentMovie);
 
   const getMovieDetail = async (movieId) => {
     const response = await api.get(`movie/${movieId}`);
@@ -23,7 +23,7 @@ export const useMovieStore = defineStore("movie", () => {
     const response = await api.get('trending/movie/week', {
       params: {
         page: 1
-      }
+      },
     })
     trendingMovie.value = response.data.results[0]
   }
