@@ -9,7 +9,7 @@
         /></router-link>
       </div>
       <div class="movies">
-        <router-link class="movies-link" to="/">Movies</router-link>
+        <router-link class="movies-link" to="/movies">Movies</router-link>
       </div>
       <div class="series">
         <router-link class="series-link" to="/tv">Series</router-link>
