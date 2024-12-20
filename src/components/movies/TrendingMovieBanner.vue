@@ -112,6 +112,8 @@ function openMovie(movieId) {
   font-weight: 500;
   font-size: 1rem;
   transition: 300ms ease;
+  z-index: 1000;
+  position: absolute;
 }
 
 .show-details-button:hover {
