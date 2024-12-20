@@ -45,13 +45,21 @@ function openTvShow(tvShowId) {
 .trending-movie {
   position: relative;
   width: fit-content;
+  display: inline-block;
 }
 
 .trending-movie img {
   filter: brightness(0.5);
-  height: 100%;
   width: 100%;
+  height: 100%;
   object-fit: cover;
+}
+
+.trending-movie::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 30%, #1e1e1e 100%);
 }
 
 .infos-wrapper {

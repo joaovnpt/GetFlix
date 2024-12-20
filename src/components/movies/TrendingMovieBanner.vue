@@ -4,15 +4,15 @@ import { useRouter } from "vue-router";
 import { useMovieStore } from "@/stores/movie";
 import Loading from "vue-loading-overlay";
 
-const router = useRouter()
+const router = useRouter();
 const movieStore = useMovieStore();
-const isLoading = ref(false)
+const isLoading = ref(false);
 
-onMounted(async() => {
-  isLoading.value = true
-  await movieStore.findTrendingMovie()
-  isLoading.value = false
-})
+onMounted(async () => {
+  isLoading.value = true;
+  await movieStore.findTrendingMovie();
+  isLoading.value = false;
+});
 
 function openMovie(movieId) {
   router.push({ name: "MovieDetails", params: { movieId } });
@@ -36,7 +36,12 @@ function openMovie(movieId) {
         {{ movieStore.trendingMovie.vote_average }}/10
       </p>
       <p>{{ movieStore.trendingMovie.overview }}</p>
-      <button @click="openMovie(movieStore.trendingMovie.id)" class="show-details-button">Show details</button>
+      <button
+        @click="openMovie(movieStore.trendingMovie.id)"
+        class="show-details-button"
+      >
+        Show details
+      </button>
     </div>
   </div>
 </template>
@@ -45,13 +50,21 @@ function openMovie(movieId) {
 .trending-movie {
   position: relative;
   width: fit-content;
+  display: inline-block;
 }
 
 .trending-movie img {
   filter: brightness(0.5);
-  height: 100%;
   width: 100%;
+  height: 100%;
   object-fit: cover;
+}
+
+.trending-movie::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 30%, #1e1e1e 100%);
 }
 
 .infos-wrapper {
