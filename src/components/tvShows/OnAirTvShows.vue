@@ -14,7 +14,7 @@ const tvStore = useTvStore()
 const genreStore = useGenreStore()
 
 function openTvShow(tvShowId) {
-  router.push({ name: "tvShowDetails", params: { tvShowId } });
+  router.push({ name: "TvShowDetails", params: { tvShowId } });
 }
 
 onMounted(async () => {
