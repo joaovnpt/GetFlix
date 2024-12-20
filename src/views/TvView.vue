@@ -10,8 +10,8 @@ import { useGenreStore } from "@/stores/genre";
 //Components
 import TvShowGenres from "@/components/tvShows/TvShowGenres.vue";
 import TrendingTvShowBaner from "@/components/tvShows/TrendingTvShowBaner.vue";
-import RealesesMovies from "@/components/movies/RealesesMovies.vue";
-import TopRatedMovies from "@/components/movies/TopRatedMovies.vue";
+import OnTheAirTvShows from "@/components/tvShows/OnAirTvShows.vue"
+import TopRatedTvShows from "@/components/tvShows/TopRatedTvShows.vue"
 
 const router = useRouter();
 const isLoading = ref(false);
@@ -74,8 +74,8 @@ onMounted(async () => {
     </div>
 
     <TvShowGenres />
-    <RealesesMovies />
-    <TopRatedMovies />
+    <OnTheAirTvShows />
+    <TopRatedTvShows />
   </main>
 </template>
 
